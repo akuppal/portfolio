@@ -48,7 +48,7 @@ nav a {
 
 nav a:hover {
   border-bottom: 0.3em solid var(--color-accent);
-  background-color: oklch(from var(--color-accent) 95% 5% h);
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
 }
 
 input,
@@ -112,15 +112,29 @@ form button {
   margin-bottom: 2em;
 }
 
-.resume article {
+/* .resume article {
   background-color: #f9f9f9;
+  padding: 1em;
+  border-radius: 0.5em;
+  margin-top: 1em;
+} */
+.resume article {
+  background-color: canvas;
+  color: canvastext;
   padding: 1em;
   border-radius: 0.5em;
   margin-top: 1em;
 }
 
-.skills ul {
+/* .skills ul {
   background-color: #f9f9f9;
+  padding: 1em;
+  border-radius: 0.5em;
+  margin-top: 1em;
+} */
+.skills ul {
+  background-color: canvas;
+  color: canvastext;
   padding: 1em;
   border-radius: 0.5em;
   margin-top: 1em;
@@ -142,3 +156,35 @@ form button {
   font-size: 0.95rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
+
+html {
+  color-scheme: light dark;
+}
+
+nav {
+  --border-color: oklch(50% 10% 200 / 40%);
+  border-bottom: 1px solid var(--border-color);
+  /* other nav styles... */
+}
+
+
+.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 80%;
+  font-family: inherit;
+  background: none;
+  border: none;
+  padding: 0.3em;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.color-scheme select {
+  font-family: inherit;
+  font-size: 1em;
+}
+
