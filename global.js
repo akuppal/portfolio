@@ -6,10 +6,10 @@ function $$(selector, context = document) {
 
 // Define all your site pages
 let pages = [
-  { url: 'index.html', title: 'Home' },
-  { url: 'projects/', title: 'Projects' },
-  { url: 'contact/', title: 'Contact' },
-  { url: 'resume/', title: 'Resume' },
+  { url: '/', title: 'Home' },
+  { url: '/projects/', title: 'Projects' },
+  { url: '/contact/', title: 'Contact' },
+  { url: '/resume/', title: 'Resume' },
 ];
 
 // Create and add the <nav> to the top of the body
@@ -17,17 +17,12 @@ let nav = document.createElement('nav');
 document.body.prepend(nav);
 
 // Set the base path to the /portfolio/ folder
-const BASE_PATH = "/portfolio/";
+// const BASE_PATH = "portfolio/";
+const BASE_PATH = "";
 
-// Loop through pages and build <a> links
 for (let p of pages) {
   let url = p.url;
   let title = p.title;
-
-  // Prefix BASE_PATH if it's a relative link
-  if (!url.startsWith('http')) {
-    url = BASE_PATH + url;
-  }
 
   let a = document.createElement('a');
   a.href = url;
@@ -90,3 +85,46 @@ if ("colorScheme" in localStorage) {
     localStorage.colorScheme = newScheme;
   });
 
+  export async function fetchJSON(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.statusText}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching JSON:', error);
+    }
+  }
+
+
+  export function renderProjects(project, containerElement, headingLevel = 'h2') {
+    const article = document.createElement('article');
+  
+    article.innerHTML = `
+      <${headingLevel}>${project.title}</${headingLevel}>
+      <img src="${project.image}" alt="${project.title}">
+      <p>${project.description}</p>
+    `;
+  
+    containerElement.appendChild(article);
+  }
+  
+  
+  export async function fetchGithubData(username) {
+    try {
+      const response = await fetch(`https://api.github.com/users/${username}`);
+  
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      return data;
+  
+    } catch (error) {
+      console.error('Error fetching GitHub data:', error);
+    }
+  }
+  
