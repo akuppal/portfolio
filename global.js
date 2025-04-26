@@ -17,7 +17,7 @@ let nav = document.createElement('nav');
 document.body.prepend(nav);
 
 // Set the base path to the /portfolio/ folder
-const BASE_PATH = "portfolio/"; // ✅ Corrected!
+const BASE_PATH = ""; // ✅ Corrected!
 
 for (let p of pages) {
   let url = BASE_PATH + p.url; // ✅ Prefix each link with portfolio/
