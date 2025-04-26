@@ -6,10 +6,10 @@ function $$(selector, context = document) {
 
 // Define all your site pages
 let pages = [
-  { url: '/', title: 'Home' },
-  { url: '/projects/', title: 'Projects' },
-  { url: '/contact/', title: 'Contact' },
-  { url: '/resume/', title: 'Resume' },
+  { url: 'index.html', title: 'Home' },
+  { url: 'projects/', title: 'Projects' },
+  { url: 'contact/', title: 'Contact' },
+  { url: 'resume/', title: 'Resume' },
 ];
 
 // Create and add the <nav> to the top of the body
@@ -17,11 +17,10 @@ let nav = document.createElement('nav');
 document.body.prepend(nav);
 
 // Set the base path to the /portfolio/ folder
-// const BASE_PATH = "portfolio/";
-const BASE_PATH = "";
+const BASE_PATH = "portfolio/"; // ✅ Corrected!
 
 for (let p of pages) {
-  let url = p.url;
+  let url = BASE_PATH + p.url; // ✅ Prefix each link with portfolio/
   let title = p.title;
 
   let a = document.createElement('a');
@@ -113,18 +112,18 @@ if ("colorScheme" in localStorage) {
   
   
   export async function fetchGithubData(username) {
-    try {
-      const response = await fetch(`https://api.github.com/users/${username}`);
-  
-      if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.statusText}`);
-      }
-  
-      const data = await response.json();
-      return data;
-  
-    } catch (error) {
-      console.error('Error fetching GitHub data:', error);
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}`);
+
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.statusText}`);
     }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error('Error fetching GitHub data:', error);
   }
-  
+}
+
