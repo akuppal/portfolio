@@ -10,7 +10,7 @@ async function loadLatestProjects() {
   const latestProjects = projects.slice(0, 3);
 
   const projectsContainer = document.querySelector('.projects');
-  projectsContainer.innerHTML = ''; // clear it first
+  projectsContainer.innerHTML = '';
 
   for (const project of latestProjects) {
     renderProjects(project, projectsContainer, 'h2');
@@ -18,7 +18,7 @@ async function loadLatestProjects() {
 }
 
 async function loadGithubStats() {
-    const githubUsername = 'akuppal'; // your username
+    const githubUsername = 'akuppal';
     const data = await fetchGithubData(githubUsername);
   
     if (data && profileStats) {

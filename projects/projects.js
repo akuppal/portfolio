@@ -4,9 +4,7 @@ async function loadProjects() {
   const projects = await fetchJSON('../lib/projects.json');
 
   const container = document.querySelector('.projects');
-  container.innerHTML = ''; // clear once before adding
-
-  // ✅ Update project title with count
+  container.innerHTML = '';
   const titleElement = document.querySelector('.projects-title');
   titleElement.textContent = `Projects (${projects.length})`;
 

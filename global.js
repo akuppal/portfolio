@@ -4,7 +4,6 @@ function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-// Define all your site pages
 let pages = [
   { url: 'index.html', title: 'Home' },
   { url: 'projects/', title: 'Projects' },
@@ -12,28 +11,25 @@ let pages = [
   { url: 'resume/', title: 'Resume' },
 ];
 
-// Create and add the <nav> to the top of the body
 let nav = document.createElement('nav');
 document.body.prepend(nav);
 
-// Set the base path to the /portfolio/ folder
-const BASE_PATH = ""; // ✅ Corrected!
+const BASE_PATH = "";
 
 for (let p of pages) {
-  let url = BASE_PATH + p.url; // ✅ Prefix each link with portfolio/
+  let url = BASE_PATH + p.url;
   let title = p.title;
 
   let a = document.createElement('a');
   a.href = url;
   a.textContent = title;
 
-  // Highlight current page
+  //Highlights the page:
   a.classList.toggle(
     'current',
     a.host === location.host && a.pathname === location.pathname
   );
 
-  // Open external links in a new tab
   a.toggleAttribute('target', a.host !== location.host);
 
   nav.append(a);
@@ -60,27 +56,19 @@ const select = document.querySelector('.color-scheme select');
 select.addEventListener('input', function (event) {
   const newScheme = event.target.value;
   console.log('color scheme changed to', newScheme);
-
-  // Apply the new color scheme to the root <html> element
   document.documentElement.style.setProperty('color-scheme', newScheme);
 });
 
-// ✅ 1. If there's a saved preference, apply it on page load
 if ("colorScheme" in localStorage) {
     const savedScheme = localStorage.colorScheme;
     document.documentElement.style.setProperty('color-scheme', savedScheme);
-    select.value = savedScheme; // Set the dropdown to match
+    select.value = savedScheme;
   }
   
-  // ✅ 2. Save the user's preference when changed
   select.addEventListener('input', function (event) {
     const newScheme = event.target.value;
     console.log('color scheme changed to', newScheme);
-  
-    // Apply the new color scheme
     document.documentElement.style.setProperty('color-scheme', newScheme);
-  
-    // Save the preference
     localStorage.colorScheme = newScheme;
   });
 
