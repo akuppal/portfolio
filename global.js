@@ -71,7 +71,7 @@ select.addEventListener("input", (e) => {
   const scheme = e.target.value;
   console.log("color scheme changed to", scheme);
   document.documentElement.style.setProperty("color-scheme", scheme);
-  localStorage.colorScheme = scheme; 
+  localStorage.colorScheme = scheme;
 });
 
 

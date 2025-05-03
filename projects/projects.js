@@ -1,6 +1,7 @@
 import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
+
 let query = '';
 let selectedIndex = -1;
 
@@ -58,16 +59,16 @@ function render(allProjects) {
 
 
   svg.selectAll('path')
-  .data(slices)
-  .join('path')
-    .attr('d', arcGen)
-    .attr('fill', (_, i) => colors(i))
-    .attr('class', d => d.index === selectedIndex ? 'selected' : null)
-    .on('click', (event, d) => {
-      const i = d.index;
-      selectedIndex = (selectedIndex === i) ? -1 : i;
-      updateSelection(svg, legend);
-    });
+    .data(slices)
+    .join('path')
+      .attr('d', arcGen)
+      .attr('fill', (_, i) => colors(i))
+      .attr('class', d => d.index === selectedIndex ? 'selected' : null)
+      .on('click', (event, d) => {
+        const i = d.index;
+        selectedIndex = (selectedIndex === i) ? -1 : i;
+        updateSelection(svg, legend, slices, arcGen, colors);
+      });
 
 
   legend.selectAll('li')
@@ -81,30 +82,33 @@ function render(allProjects) {
       .on('click', function (event) {
         const i = +this.dataset.idx;
         selectedIndex = (selectedIndex === i) ? -1 : i;
-        updateSelection(svg, legend);
+        updateSelection(svg, legend, slices, arcGen, colors);
       });
 
 }
 
-   function updateSelection(svg, legend) {
-    svg.selectAll('path')
+function updateSelection(svg, legend, slices, arcGen, colors) {
+  svg.selectAll('path')
     .data(slices)
     .join('path')
       .attr('d', arcGen)
       .attr('fill', (_, i) => colors(i))
-     .attr('style', (_, i) => `--slice-color:${colors(i)}`)   // ★ NEW
-      .attr('class', d => d.index === selectedIndex ? 'selected' : null)
+      .attr('style', (_, i) => `--slice-color:${colors(i)}`)
+      .attr('class', d => {
+        if (selectedIndex === -1) return null; // No selection
+        return d.index === selectedIndex ? 'selected' : 'dimmed';
+      })
       .on('click', (event, d) => {
         const i = d.index;
         selectedIndex = (selectedIndex === i) ? -1 : i;
-        updateSelection(svg, legend);
+        updateSelection(svg, legend, slices, arcGen, colors);
       });
-  
-    legend.selectAll('li')
-          .attr('class', (_, i) => {
-            const base = 'legend-item';
-            if (selectedIndex === -1) return base;
-            return (i === selectedIndex) ? `${base} selected`
-                                         : `${base} dimmed`;
-          });
-  }
+
+  legend.selectAll('li')
+    .attr('class', (_, i) => {
+      const base = 'legend-item';
+      if (selectedIndex === -1) return base; // No selection
+      return (i === selectedIndex) ? `${base} selected`
+                                   : `${base} dimmed`;
+    });
+}
