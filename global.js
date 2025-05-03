@@ -2,12 +2,6 @@
 //  navigation – build root-relative links in pure JS
 // ----------------------------------------------------
 console.log("IT’S ALIVE!");
-
-/**
- * Return the root folder of the site (with trailing slash) **at runtime**.
- *   • On GitHub Pages (akuppal.github.io/portfolio/…) it becomes "/portfolio/".
- *   • When you test locally (http://localhost/ or file://) it falls back to "/".
- */
 function getRoot() {
   const parts = location.pathname.split("/").filter(Boolean);
   const idx = parts.indexOf("portfolio");
@@ -17,7 +11,7 @@ function getRoot() {
   return "/";
 }
 
-const ROOT = getRoot();           // <-- key change
+const ROOT = getRoot();
 const pages = [
   { url: "index.html", title: "Home" },
   { url: "projects/",  title: "Projects" },
@@ -77,7 +71,7 @@ select.addEventListener("input", (e) => {
   const scheme = e.target.value;
   console.log("color scheme changed to", scheme);
   document.documentElement.style.setProperty("color-scheme", scheme);
-  localStorage.colorScheme = scheme;   // persist choice
+  localStorage.colorScheme = scheme; 
 });
 
 
