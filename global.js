@@ -1,117 +1,123 @@
+// ----------------------------------------------------
+//  navigation – build root-relative links in pure JS
+// ----------------------------------------------------
 console.log("IT’S ALIVE!");
+
+/**
+ * Return the root folder of the site (with trailing slash) **at runtime**.
+ *   • On GitHub Pages (akuppal.github.io/portfolio/…) it becomes "/portfolio/".
+ *   • When you test locally (http://localhost/ or file://) it falls back to "/".
+ */
+function getRoot() {
+  const parts = location.pathname.split("/").filter(Boolean);
+  const idx = parts.indexOf("portfolio");
+  if (idx !== -1) {
+    return "/" + parts.slice(0, idx + 1).join("/") + "/";
+  }
+  return "/";
+}
+
+const ROOT = getRoot();           // <-- key change
+const pages = [
+  { url: "index.html", title: "Home" },
+  { url: "projects/",  title: "Projects" },
+  { url: "contact/",   title: "Contact" },
+  { url: "resume/",    title: "Resume" },
+];
 
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-let pages = [
-  { url: 'index.html', title: 'Home' },
-  { url: 'projects/', title: 'Projects' },
-  { url: 'contact/', title: 'Contact' },
-  { url: 'resume/', title: 'Resume' },
-];
-
-let nav = document.createElement('nav');
+const nav = document.createElement("nav");
 document.body.prepend(nav);
 
-const BASE_PATH = "";
+for (const p of pages) {
+  const a = document.createElement("a");
 
-for (let p of pages) {
-  let url = BASE_PATH + p.url;
-  let title = p.title;
+  a.href = p.url === "index.html" ? ROOT : ROOT + p.url;
 
-  let a = document.createElement('a');
-  a.href = url;
-  a.textContent = title;
+  a.textContent = p.title;
 
-  //Highlights the page:
+  // highlight current page
   a.classList.toggle(
-    'current',
-    a.host === location.host && a.pathname === location.pathname
+    "current",
+    new URL(a.href).pathname === location.pathname
   );
 
-  a.toggleAttribute('target', a.host !== location.host);
+  a.toggleAttribute("target", new URL(a.href).host !== location.host);
 
   nav.append(a);
 }
 
 
 document.body.insertAdjacentHTML(
-    'afterbegin',
-    `
-    <label class="color-scheme">
-      Theme:
-      <select id="theme-switch">
-        <option value="light dark">Automatic</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    </label>
-    `
-  );
-  
+  "afterbegin",
+  `
+  <label class="color-scheme">
+    Theme:
+    <select id="theme-switch">
+      <option value="light dark">Automatic</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </label>
+`
+);
 
-const select = document.querySelector('.color-scheme select');
-
-select.addEventListener('input', function (event) {
-  const newScheme = event.target.value;
-  console.log('color scheme changed to', newScheme);
-  document.documentElement.style.setProperty('color-scheme', newScheme);
-});
+const select = document.querySelector(".color-scheme select");
 
 if ("colorScheme" in localStorage) {
-    const savedScheme = localStorage.colorScheme;
-    document.documentElement.style.setProperty('color-scheme', savedScheme);
-    select.value = savedScheme;
-  }
-  
-  select.addEventListener('input', function (event) {
-    const newScheme = event.target.value;
-    console.log('color scheme changed to', newScheme);
-    document.documentElement.style.setProperty('color-scheme', newScheme);
-    localStorage.colorScheme = newScheme;
-  });
+  const saved = localStorage.colorScheme;
+  document.documentElement.style.setProperty("color-scheme", saved);
+  select.value = saved;
+}
 
-  export async function fetchJSON(url) {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.statusText}`);
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching JSON:', error);
-    }
-  }
+select.addEventListener("input", (e) => {
+  const scheme = e.target.value;
+  console.log("color scheme changed to", scheme);
+  document.documentElement.style.setProperty("color-scheme", scheme);
+  localStorage.colorScheme = scheme;   // persist choice
+});
 
 
-  export function renderProjects(project, containerElement, headingLevel = 'h2') {
-    const article = document.createElement('article');
-  
-    article.innerHTML = `
-      <${headingLevel}>${project.title}</${headingLevel}>
-      <img src="${project.image}" alt="${project.title}">
-      <p>${project.description}</p>
-    `;
-  
-    containerElement.appendChild(article);
-  }
-  
-  
-  export async function fetchGithubData(username) {
+export async function fetchJSON(url) {
   try {
-    const response = await fetch(`https://api.github.com/users/${username}`);
-
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data;
-
-  } catch (error) {
-    console.error('Error fetching GitHub data:', error);
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`Failed to fetch: ${resp.statusText}`);
+    return await resp.json();
+  } catch (err) {
+    console.error("Error fetching JSON:", err);
   }
 }
 
+export function renderProjects(project, containerElement, headingLevel = "h2") {
+  const article = document.createElement("article");
+  article.innerHTML = `
+    <${headingLevel}>${project.title}</${headingLevel}>
+    <img src="${project.image}" alt="${project.title}">
+    <div>
+      <p>${project.description}</p>
+      <p style="
+        font-style: italic;
+        color: #777;
+        font-family: Baskerville, serif;
+        font-variant-numeric: oldstyle-nums;
+      ">
+        c. ${project.year}
+      </p>
+    </div>
+  `;
+  containerElement.appendChild(article);
+}
+
+
+export async function fetchGithubData(username) {
+  try {
+    const resp = await fetch(`https://api.github.com/users/${username}`);
+    if (!resp.ok) throw new Error(`GitHub API error: ${resp.statusText}`);
+    return await resp.json();
+  } catch (err) {
+    console.error("Error fetching GitHub data:", err);
+  }
+}

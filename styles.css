@@ -188,3 +188,60 @@ nav {
   font-size: 1em;
 }
 
+/* ---------- pie + legend layout ---------- */
+.container{
+  display:flex;
+  align-items:flex-start;
+  gap:2em;
+  margin:2em 0;
+}
+#projects-pie-plot{
+  max-width:20em;
+  flex-shrink:0;
+}
+.legend{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(9em,1fr));
+  gap:1em;
+  list-style:none;
+  padding:1em;
+  margin:1em 0;
+  border:2px solid rgba(255,255,255,.8);
+  border-radius:8px;
+  box-sizing:border-box;
+}
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:.5em;
+}
+.swatch{
+  width:1em;
+  aspect-ratio:1/1;
+  border-radius:4px;
+  background:var(--color);
+}
+
+/* ---------- interactivity ---------- */
+#projects-pie-plot path{
+  cursor:pointer;
+  transition:300ms;
+  vector-effect: non-scaling-stroke;   /* ← fixes the “zoom” */
+}
+
+/* selected slice keeps its colour, gains same‑colour outline */
+#projects-pie-plot path.selected{
+  stroke:var(--slice-color);
+  stroke-width:3px;
+}
+
+/* dim everything else */
+.dimmed{        opacity:.25; }
+.legend-item.dimmed{ opacity:.5; }
+
+/* legend row highlight */
+.legend-item.selected{
+  font-weight:700;
+  text-decoration:underline;
+}
