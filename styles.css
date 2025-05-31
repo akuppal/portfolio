@@ -7,13 +7,10 @@ h1 {
 }
 
 body {
-  /* Set line height to 1.5 times the font size
-       and use the OS’s UI font as the website font
-     */
   line-height: 1.5rem;
   font: 100%/1.5 system-ui;
-  max-width: 60ch;     /* Limits line length for readability */
-  margin-inline: auto;       /* Centers the body content horizontally */
+  max-width: 60ch;
+  margin-inline: auto;
   padding: 1rem;
 }
 
@@ -27,12 +24,12 @@ nav {
   margin-bottom: 1rem;
   border-bottom: 1px solid oklch(80% 3% 200);
 }
-  
+
 nav ul,
 nav li {
   display: contents;
-  }
-  
+}
+
 nav a {
   flex: 1;
   text-decoration: none;
@@ -40,8 +37,8 @@ nav a {
   text-align: center;
   padding: 0.5em;
 }
-  
-  nav a.current {
+
+nav a.current {
   border-bottom: 0.3em solid oklch(80% 3% 200);
   font-weight: bold;
 }
@@ -70,7 +67,7 @@ form label {
 }
 
 form button {
-  grid-column: 1 / -1; /* Make button span full width */
+  grid-column: 1 / -1;
 }
 
 .projects {
@@ -89,7 +86,6 @@ form button {
 .projects h2 {
   margin: 0;
 }
-
 
 .resume h1 {
   font-size: 250%;
@@ -112,12 +108,6 @@ form button {
   margin-bottom: 2em;
 }
 
-/* .resume article {
-  background-color: #f9f9f9;
-  padding: 1em;
-  border-radius: 0.5em;
-  margin-top: 1em;
-} */
 .resume article {
   background-color: canvas;
   color: canvastext;
@@ -126,12 +116,6 @@ form button {
   margin-top: 1em;
 }
 
-/* .skills ul {
-  background-color: #f9f9f9;
-  padding: 1em;
-  border-radius: 0.5em;
-  margin-top: 1em;
-} */
 .skills ul {
   background-color: canvas;
   color: canvastext;
@@ -164,9 +148,7 @@ html {
 nav {
   --border-color: oklch(50% 10% 200 / 40%);
   border-bottom: 1px solid var(--border-color);
-  /* other nav styles... */
 }
-
 
 .color-scheme {
   position: absolute;
@@ -188,62 +170,66 @@ nav {
   font-size: 1em;
 }
 
-/* ---------- pie + legend layout ---------- */
-.container{
-  display:flex;
-  align-items:flex-start;
-  gap:2em;
-  margin:2em 0;
-}
-#projects-pie-plot{
-  max-width:20em;
-  flex-shrink:0;
-}
-.legend{
-  flex:1;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(9em,1fr));
-  gap:1em;
-  list-style:none;
-  padding:1em;
-  margin:1em 0;
-  border:2px solid rgba(255,255,255,.8);
-  border-radius:8px;
-  box-sizing:border-box;
-}
-.legend-item{
-  display:flex;
-  align-items:center;
-  gap:.5em;
-}
-.swatch{
-  width:1em;
-  aspect-ratio:1/1;
-  border-radius:4px;
-  background:var(--color);
+.container {
+  display: flex;
+  align-items: flex-start;
+  gap: 2em;
+  margin: 2em 0;
 }
 
-/* ---------- interactivity ---------- */
-#projects-pie-plot path{
-  cursor:pointer;
-  transition:300ms;
-  vector-effect: non-scaling-stroke;   /* ← fixes the “zoom” */
+#projects-pie-plot {
+  max-width: 20em;
+  flex-shrink: 0;
 }
 
-/* selected slice keeps its colour, gains same‑colour outline */
-#projects-pie-plot path.selected{
-  stroke:var(--slice-color);
-  stroke-width:3px;
+.legend {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: 1em;
+  list-style: none;
+  padding: 1em;
+  margin: 1em 0;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
-/* dim everything else */
-.dimmed{        opacity:.25; }
-.legend-item.dimmed{ opacity:.5; }
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
 
-/* legend row highlight */
-.legend-item.selected{
-  font-weight:700;
-  text-decoration:underline;
+.swatch {
+  width: 1em;
+  aspect-ratio: 1/1;
+  border-radius: 4px;
+  background: var(--color);
+}
+
+#projects-pie-plot path {
+  cursor: pointer;
+  transition: 300ms;
+  vector-effect: non-scaling-stroke;
+}
+
+#projects-pie-plot path.selected {
+  stroke: var(--slice-color);
+  stroke-width: 3px;
+}
+
+.dimmed {
+  opacity: 0.25;
+}
+
+.legend-item.dimmed {
+  opacity: 0.5;
+}
+
+.legend-item.selected {
+  font-weight: 700;
+  text-decoration: underline;
 }
 
 .stats {
@@ -271,53 +257,9 @@ nav {
   stroke-opacity: 0.4;
   shape-rendering: crispEdges;
 }
+
 .gridlines path {
   display: none;
-}
-
-dl.info {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.5em 1em;
-  margin: 1em;
-  font-size: 0.9rem;
-}
-
-dl.info dt {
-  color: #777;
-  margin: 0;
-}
-
-dl.info dd {
-  margin: 0;
-  font-weight: 500;
-}
-
-.tooltip {
-  position: fixed;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 0.75em 1em;
-  border-radius: 0.5em;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  font-size: 0.9rem;
-  z-index: 1000;
-  pointer-events: none;
-  transition: transform 0.1s ease-out;
-}
-
-
-
-/* Dot hover scaling */
-circle {
-  transition: 200ms;
-  transform-origin: center;
-  transform-box: fill-box;
-}
-
-circle:hover {
-  transform: scale(1.5);
 }
 
 dl.info {
@@ -335,10 +277,37 @@ dl.info[hidden]:not(:hover, :focus-within) {
   visibility: hidden;
 }
 
-@keyframes marching-ants {
-  to {
-    stroke-dashoffset: -8; /* 5 + 3 */
+.tooltip {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.75em 1em;
+  border-radius: 0.5em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+  z-index: 1000;
+  pointer-events: none;
+  transition: transform 0.1s ease-out;
+}
+
+/* ✅ Entry animation for new circles */
+@starting-style {
+  circle {
+    r: 0;
   }
+}
+
+circle {
+  fill: steelblue;
+  fill-opacity: 0.7;
+  transition: all 200ms, r calc(var(--r, 1) * 100ms);
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+circle:hover {
+  transform: scale(1.5);
 }
 
 .selection {
@@ -349,7 +318,40 @@ dl.info[hidden]:not(:hover, :focus-within) {
   animation: marching-ants 2s linear infinite;
 }
 
+@keyframes marching-ants {
+  to {
+    stroke-dashoffset: -8;
+  }
+}
+
 circle.selected {
   fill: #ff6b6b;
 }
 
+#scrolly-1 {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+}
+
+#scrolly-1 > * {
+  flex: 1;
+}
+
+#scatter-story {
+  position: relative;
+  /* Optional: add padding or style for the narrative text */
+  padding: 1rem;
+}
+
+#scatter-plot {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 50vh;
+}
+
+/* You can also add margin/padding to .step if needed */
+.step {
+  margin-bottom: 2rem;
+}

@@ -5,46 +5,142 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meta Analysis | Akshay Uppal</title>
   <link rel="stylesheet" type="text/css" href="../styles.css">
+  <style>
+    /* Local styles for the unit visualization */
+    #files {
+      display: grid;
+      grid-template-columns: 1fr 4fr;
+      margin-top: 2rem;
+    }
+
+    #files > div {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: subgrid;
+    }
+
+    #files dt {
+      grid-column: 1;
+    }
+
+    #files dd {
+      grid-column: 2;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: start;
+      align-content: start;
+      gap: 0.15em;
+      padding-top: 0.6em;
+      margin-left: 0;
+    }
+
+    .loc {
+      display: flex;
+      width: 0.5em;
+      aspect-ratio: 1;
+      background: var(--color, steelblue);
+      border-radius: 50%;
+    }
+
+    #files small {
+      display: block;
+      font-size: 0.8em;
+      opacity: 0.7;
+    }
+
+    /* Scrollytelling styles */
+    #scrolly-1 {
+      position: relative;
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    #scrolly-1 > * {
+      flex: 1;
+    }
+
+    #scatter-story {
+      position: relative;
+    }
+
+    #scatter-plot {
+      position: sticky;
+      top: 0;
+      left: 0;
+      bottom: auto;
+      height: 50vh;
+    }
+
+    .step {
+      margin-bottom: 80vh;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body>
-
   <h1>Meta Analysis</h1>
   <p>This page includes stats about the code of this website.</p>
 
   <h2>Commits by time of day</h2>
-  <div id="chart"></div>
-
-  <dl id="commit-tooltip" class="info tooltip" hidden>
-    <dt>Commit</dt>
-    <dd>
-      <a href="" id="commit-link" target="_blank"></a>
-    </dd>
   
-    <dt>Date</dt>
-    <dd id="commit-date"></dd>
-  
-    <dt>Time</dt>
-    <dd id="commit-time"></dd>
-  
-    <dt>Author</dt>
-    <dd id="commit-author"></dd>
-  
-    <dt>Lines edited</dt>
-    <dd id="commit-lines"></dd>
-  </dl>
+  <!-- Scrollytelling container -->
+  <div id="scrolly-1">
+    <div id="scatter-story">
+      <!-- Steps will be added here dynamically -->
+    </div>
+    <div id="scatter-plot">
+      <!-- Time slider UI -->
+      <div style="display: flex; align-items: baseline; margin: 1rem 0;">
+        <label for="commit-progress">Show commits until:</label>
+        <time id="commit-time" style="margin-left: auto;"></time>
+      </div>
+      <input
+        type="range"
+        id="commit-progress"
+        min="0"
+        max="100"
+        value="100"
+        style="width: 100%; margin-bottom: 2rem;"
+      >
 
-  <dl id="language-breakdown" class="stats"></dl>
+      <div id="chart"></div>
 
+      <dl id="commit-tooltip" class="info tooltip" hidden>
+        <dt>Commit</dt>
+        <dd>
+          <a href="" id="commit-link" target="_blank"></a>
+        </dd>
+      
+        <dt>Date</dt>
+        <dd id="commit-date"></dd>
+      
+        <dt>Time</dt>
+        <dd id="commit-time"></dd>
+      
+        <dt>Author</dt>
+        <dd id="commit-author"></dd>
+      
+        <dt>Lines edited</dt>
+        <dd id="commit-lines"></dd>
+      </dl>
 
-  <p id="selection-count">No commits selected</p>
+      <dl id="language-breakdown" class="stats"></dl>
 
+      <p id="selection-count">No commits selected</p>
 
+      <div id="stats"></div>
+    </div>
+  </div>
+
+  <!-- File visualization moved to bottom -->
+  <h2>Files by size</h2>
+  <dl id="files"></dl>
 
   <script src="../global.js" type="module" defer></script>
   <script type="module" src="./main.js"></script>
-
-  <div id="stats"></div>
-
-
 </body>
 </html>
