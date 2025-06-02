@@ -10,7 +10,9 @@
     #files {
       display: grid;
       grid-template-columns: 1fr 4fr;
-      margin-top: 2rem;
+      margin-top: 4rem;  /* Increased top margin for better separation */
+      padding-top: 2rem; /* Added padding for visual separation */
+      border-top: 1px solid #eee; /* Added subtle divider */
     }
 
     #files > div {
@@ -54,6 +56,7 @@
       display: flex;
       gap: 1rem;
       margin: 2rem 0;
+      min-height: 100vh; /* Ensure full height for scrolling */
     }
 
     #scrolly-1 > * {
@@ -78,6 +81,13 @@
       background: rgba(255, 255, 255, 0.8);
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Container for files section */
+    .files-section {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      clear: both;
     }
   </style>
 </head>
@@ -136,9 +146,11 @@
     </div>
   </div>
 
-  <!-- File visualization moved to bottom -->
-  <h2>Files by size</h2>
-  <dl id="files"></dl>
+  <!-- File visualization in its own section -->
+  <section class="files-section">
+    <h2>Files by size</h2>
+    <dl id="files"></dl>
+  </section>
 
   <script src="../global.js" type="module" defer></script>
   <script type="module" src="./main.js"></script>
